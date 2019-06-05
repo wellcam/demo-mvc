@@ -4,16 +4,11 @@ import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-
-
 public abstract class AbstractDao<T, PK extends Serializable> {
-	
-//	final private static String QUERY_FIND_ALL = "FROM" + entityManager.get ;
 	
 	@SuppressWarnings("unchecked")
 	private final Class<T> entityClass = (Class<T>) ( (ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
@@ -35,6 +30,10 @@ public abstract class AbstractDao<T, PK extends Serializable> {
 	
 	public void delete(PK id) {
 		entityManager.remove(entityManager.getReference(entityClass, id));
+	}
+	
+	public T findById(PK id) {
+		return entityManager.find(entityClass, id);
 	}
 
 	public List<T> findAll() {
