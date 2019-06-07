@@ -21,7 +21,7 @@
 		</div>
 
 		<div class="container" id="cadastro">
-			<form action="/funcionarios/salvar" method="POST">
+			<form th:action="@{/funcionarios/salvar}" th:object="${funcionario}" method="POST">
 				<div class="form-row">
 					<div class="form-group col-md-6">
 						<label for="nome">Nome do Funcionário</label> <input type="text"
