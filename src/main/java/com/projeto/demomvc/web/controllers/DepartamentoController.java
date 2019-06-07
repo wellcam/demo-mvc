@@ -2,7 +2,9 @@ package com.projeto.demomvc.web.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,7 +25,8 @@ public class DepartamentoController {
 	}
 	
 	@GetMapping("/listar")
-	public String listar() {
+	public String listar(ModelMap model) {
+		model.addAttribute("departamentos",getDepService().buscarTodos());
 		
 		return "/departamento/lista";
 	}
@@ -34,7 +37,21 @@ public class DepartamentoController {
 		
 		return "redirect:/departamentos/cadastrar";
 	}
-
+	
+	@GetMapping("/editar/{id}")
+	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
+		model.addAttribute("departamento", getDepService().buscarPorId(id));
+		
+		return "/departamentos/cadastro"; 
+	}
+	
+	@PostMapping("editar")
+	public String editar(Departamento departamento) {
+		getDepService().editar(departamento);
+		
+		return "redirect:/departamentos/cadastrar";
+	}
+	
 	public DepartamentoService getDepService() {
 		return departamentoService;
 	}

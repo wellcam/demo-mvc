@@ -29,12 +29,12 @@ public class FuncionarioController {
 	
 	@PostMapping
 	public String salvar(Funcionario funcionario) {
-		getFuncionarioService().salvar(funcionario);
+		getFuncService().salvar(funcionario);
 		
 		return "redirect:/funcionarios/cadastrar";
 	}
 
-	public FuncionarioService getFuncionarioService() {
+	public FuncionarioService getFuncService() {
 		return funcionarioService;
 	}
 	
