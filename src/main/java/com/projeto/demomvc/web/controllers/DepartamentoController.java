@@ -42,7 +42,7 @@ public class DepartamentoController {
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
 		model.addAttribute("departamento", getDepService().buscarPorId(id));
 		
-		return "/departamentos/cadastro"; 
+		return "/departamento/cadastro"; 
 	}
 	
 	@PostMapping("editar")
@@ -50,6 +50,15 @@ public class DepartamentoController {
 		getDepService().editar(departamento);
 		
 		return "redirect:/departamentos/cadastrar";
+	}
+	
+	@GetMapping("/excluir/{id}")
+	public String excluir(@PathVariable("id") Long id, ModelMap model) {
+		if(!getDepService().temCargo(id)) {
+			getDepService().excluir(id);
+		}
+		
+		return listar(model);
 	}
 	
 	public DepartamentoService getDepService() {

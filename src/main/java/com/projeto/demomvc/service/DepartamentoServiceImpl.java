@@ -39,6 +39,14 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	public List<Departamento> buscarTodos() {
 		return getDepartamentoDao().findAll();	
 	}
+	
+	@Override
+	public boolean temCargo(Long id) {
+		if (buscarPorId(id).getCargos().isEmpty()) {
+			return false;
+		}
+		return true;
+	}
 
 	public DepartamentoDao getDepartamentoDao() {
 		return departamentoDao;
@@ -47,5 +55,6 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	public void setDepartamentoDao(DepartamentoDao departamentoDao) {
 		this.departamentoDao = departamentoDao;
 	}
+
 
 }
