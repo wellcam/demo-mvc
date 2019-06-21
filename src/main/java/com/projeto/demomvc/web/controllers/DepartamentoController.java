@@ -27,14 +27,14 @@ public class DepartamentoController {
 	
 	@GetMapping("/listar")
 	public String listar(ModelMap model) {
-		model.addAttribute("departamentos",getDepService().buscarTodos());
+		model.addAttribute("departamentos",departamentoService.buscarTodos());
 		
 		return "/departamento/lista";
 	}
 	
 	@PostMapping("salvar")
 	public String salvar(Departamento departamento, RedirectAttributes redirectAtt) {
-		getDepService().salvar(departamento);
+		departamentoService.salvar(departamento);
 		redirectAtt.addFlashAttribute("success","Departamento inserido com sucesso.");
 		
 		return "redirect:/departamentos/cadastrar";
@@ -42,14 +42,14 @@ public class DepartamentoController {
 	
 	@GetMapping("/editar/{id}")
 	public String preEditar(@PathVariable("id") Long id, ModelMap model) {
-		model.addAttribute("departamento", getDepService().buscarPorId(id));
+		model.addAttribute("departamento", departamentoService.buscarPorId(id));
 		
 		return "/departamento/cadastro"; 
 	}
 	
 	@PostMapping("editar")
 	public String editar(Departamento departamento, RedirectAttributes redirectAtt) {
-		getDepService().editar(departamento);
+		departamentoService.editar(departamento);
 		redirectAtt.addFlashAttribute("success","Departamento editado com sucesso.");
 		
 		return "redirect:/departamentos/cadastrar";
@@ -57,18 +57,14 @@ public class DepartamentoController {
 	
 	@GetMapping("/excluir/{id}")
 	public String excluir(@PathVariable("id") Long id, ModelMap model) {
-		if(getDepService().temCargo(id)) {
+		if(departamentoService.temCargo(id)) {
 			model.addAttribute("fail","Departamento não removido. Possui cargo(s) vinculado(s).");
 		} else {
-			getDepService().excluir(id);
+			departamentoService.excluir(id);
 			model.addAttribute("success","Departamento excluido com sucesso.");
 		}
 		
 		return listar(model);
-	}
-	
-	public DepartamentoService getDepService() {
-		return departamentoService;
 	}
 	
 }
